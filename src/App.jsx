@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QueryInput from './components/QueryInput';
 import AnswerCard from './components/AnswerCard';
 import { fetchAIAnswer } from './utils/OpenRouterApi';
@@ -10,13 +10,15 @@ const App = () => {
 
   const handleSubmit = async () => {
   setLoading(true);
+  const response = await fetchAIAnswer(query); 
+  console.log(response)
 
   // TEMPORARY: Hardcoded correct answer
   const aiAnswer =
     "Yes, under Section 166 of the Motor Vehicles Act, 1988, the claimants are entitled to an addition for future prospects even when the deceased was self-employed and aged 54–55 years at the time of the accident. In Dani Devi v. Pritam Singh, the Court held that 10% of the deceased’s annual income should be added as future prospects.";
 
   setResponse({
-    answer: aiAnswer,
+    answer: response,
     citations: [
       {
         text: "As the age of the deceased at the time of accident was held to be about 54–55 years...",
@@ -28,7 +30,9 @@ const App = () => {
 
   setLoading(false);
 };
-
+useEffect(()=>{
+  console.log(query)
+},[query])
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-4 space-y-6">
